@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supercell背景生成器</title>
+    <style>
+        body {
+            background-color: #333;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .container {
+            width: 800px;
+            padding: 20px;
+            background-color: #444;
+            border-radius: 10px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            width: 100%;
+        }
+        canvas {
+            width: 100%;
+            height: 400px;
+            background-color: #fff;
+            border-radius: 10px;
+        }
+        .controls {
+            margin-top: 20px;
+        }
+        select, button, input[type="range"] {
+            margin: 10px 0;
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+        }
+        button {
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+        }
+        h1 {
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: 800;
+        }
+
+        /* Media query for mobile devices */
+        @media (max-width: 768px) {
+            .container {
+                width: 90%; /* Adjust container width for smaller screens */
+                padding: 10px; /* Reduce padding */
+            }
+            canvas {
+                height: 300px; /* Adjust canvas height */
+            }
+            h1 {
+                font-size: 1.2rem; /* Adjust font size */
+            }
+            select, button, input[type="range"] {
+                padding: 8px; /* Adjust padding */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+    <h1>Supercell背景生成器</h1>
+</div>
+    <div class="container">
+        <canvas id="canvas"></canvas>
+        <div class="controls">
+            <label for="backgroundSelect">背景色预设</label>
+            <select id="backgroundSelect">
+                <option value="#43e9ff, #1079e4, #0039a7">默认蓝色/超稀有</option>
+                <option value="#cef887, #6ce34e, #09942a">绿色/稀有/足球</option>
+                <option value="#98da32, #144520, #011a19">深绿色/银河狂徒</option>
+                <option value="#f7aeff, #c454f3, #600eb8">紫色/史诗/万圣节</option>
+                <option value="#ffe6a1, #f0535f, #97154c">红色/神话/新春</option>
+                <option value="#fffb7d, #ffd144, #fa792c">橙色/黄金周</option>
+                <option value="#a1fef3, #0dc6ee, #0268dc">淡蓝色/初始英雄</option>
+                <option value="#f9ddff, #7949e8, #230858">深紫色/10周年</option>
+                <option value="#ffe2c6, #ffc7b5, #d83f7d">粉红色/塔拉巴扎</option>
+                <option value="#85fd8b, #43eb9e, #00b6cb">蓝绿色/恐龙乐园</option>
+                <option value="#fffdea, #fcd1e3, #802ed6">淡紫色/星妙乐园</option>
+                <option value="#fdb3e0, #f283d4, #d335bf">粉色</option>
+                <option value="#fdde7e, #f74f7c, #720c85">红紫色</option>
+                <option value="#998588, #65506d, #1b1517">黑紫色</option>
+                <option value="#f2ffff, #c8e6eb, #7593ba">银白色/铂银</option>
+                <option value="#fdc417, #fda70e, #fe8800">金色/辉金</option>
+                <option value="#fcef19, #fdf019, #ffbb11">黄色/传奇</option>
+                <option value="#70eab6, #3f7e84, #292c61">深海蓝</option>
+                <option value="#fb9b1a, #802105, #471009">西部邪恶橙</option>
+                <option value="#876af7, #4014a9, #260758">机甲深紫色</option>
+                <option value="#b116ec, #ff0021, #fff11e">流彩</option>
+                <option value="#e693fe, #6a10e6, #221080">蓝紫色</option>
+                <option value="#ff5839, #bc2c52, #281c70">红色/动作巨星</option>
+                <option value="#ff5b3c, #941a2e, #2e0010">红色/面具</option>
+                <option value="#53524e, #121213, #070608">黑色/许可证</option>
+                <option value="#f8f095, #155861, #0e283f">丛林绿</option>
+                <option value="#fcb3ff, #f800ff, #c62ac8">极限充能</option>
+            </select>
+
+            <label for="iconSelect">选择图案</label>
+            <select id="iconSelect">
+                <option value="/assets/images/angel.png">天使战恶魔-天使</option>
+                <option value="/assets/images/demon.png">天使战恶魔-恶魔</option>
+                <option value="/assets/images/angelo.png">安吉洛</option>
+                <option value="/assets/images/babyShark.png">鲨鱼宝宝</option>
+                <option value="/assets/images/buzzLightyear.png">巴斯光年</option>
+                <option value="/assets/images/draco.png">德拉科</option>
+                <option value="/assets/images/meeple.png">谜宝</option>
+                <option value="/assets/images/melodie.png">麦乐迪</option>
+                <option value="/assets/images/starrForce.png">星妙战队</option>
+                <option value="/assets/images/starrToon2.png">卡通工作室2</option>
+                <option value="/assets/images/ollie.png">奥利</option>
+                <option value="/assets/images/goodRandom.png">野排大神</option>
+                <option value="/assets/images/castle.png">城堡</option>
+                <option value="/assets/images/academy.png">乱斗学院</option>
+                <option value="/assets/images/hanbokMandy.png">韩服曼迪</option>
+                <option value="/assets/images/westBrawl.png">劫难战团</option>
+                <option value="/assets/images/ghost.png">万圣节/幽灵</option>
+                <option value="/assets/images/candy.png">糖果</option>
+                <option value="/assets/images/starrPark.png">星妙乐园</option>
+                <option value="/assets/images/actionHero.png">动作巨星</option>
+                <option value="/assets/images/brawlywood.png">星妙好莱坞</option>
+                <option value="/assets/images/darkXmas.png">暗黑圣诞节</option>
+                <option value="/assets/images/rabbitArcade.png">电玩兔兔</option>
+                <option value="/assets/images/heartLock.png">心锁</option>
+                <option value="/assets/images/mask.png">面具</option>
+                <option value="/assets/images/lantern.png">神灯</option>
+                <option value="/assets/images/coconutTree.png">椰子树</option>
+                <option value="/assets/images/eveBidome.png">生态馆</option>
+                <option value="/assets/images/enchantedForest.png">魔法森林</option>
+                <option value="/assets/images/cursedPirate.png">秘咒海员</option>
+                <option value="/assets/images/starrMeal.png">星妙大餐</option>
+                <option value="/assets/images/giftShop.png">礼品店</option>
+                <option value="/assets/images/trophy.png">奖杯</option>
+                <option value="/assets/images/max.png">麦克斯</option>
+                <option value="/assets/images/royale.png">皇室战争</option>
+                <option value="/assets/images/clash.png">部落冲突</option>
+                <option value="/assets/images/carnival.png">狂欢节</option>
+                <!-- 添加更多选项 -->
+            </select>
+
+            <label for="opacityRange">图案不透明度</label>
+            <input type="range" id="opacityRange" min="0" max="1" step="0.01" value="0.5">
+
+            <label for="iconSizeRange">图案大小</label>
+            <input type="range" id="iconSizeRange" min="120" max="600" step="10" value="200">
+
+            <label for="iconHorizontalSpacingRange">图案水平间距</label>
+            <input type="range" id="iconHorizontalSpacingRange" min="120" max="600" step="10" value="200">
+
+            <label for="iconVerticalSpacingRange">图案垂直间距</label>
+            <input type="range" id="iconVerticalSpacingRange" min="40" max="600" step="10" value="150">
+
+            <label for="iconOffsetRange">行间交错偏移</label>
+            <input type="range" id="iconOffsetRange" min="48" max="384" step="10" value="96">
+
+            <label for="iconRotationRange">图标旋转</label>
+            <input type="range" id="iconRotationRange" min="0" max="360" step="1" value="12">
+
+            <button id="downloadButton">下载图片</button>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        const backgroundSelect = document.getElementById('backgroundSelect');
+        const iconSelect = document.getElementById('iconSelect');
+        const opacityRange = document.getElementById('opacityRange');
+        const iconSizeRange = document.getElementById('iconSizeRange');
+        const iconHorizontalSpacingRange = document.getElementById('iconHorizontalSpacingRange');
+        const iconVerticalSpacingRange = document.getElementById('iconVerticalSpacingRange');
+        const iconOffsetRange = document.getElementById('iconOffsetRange');
+        const iconRotationRange = document.getElementById('iconRotationRange');
+        const downloadButton = document.getElementById('downloadButton');
+
+        canvas.width = 1920;
+        canvas.height = 1080;
+
+        function drawBackground() {
+            const colors = backgroundSelect.value.split(', ');
+            const gradient = ctx.createRadialGradient(
+                canvas.width / 2, canvas.height / 2, 0,
+                canvas.width / 2, canvas.height / 2, canvas.width / 2
+            );
+            gradient.addColorStop(0, colors[0]);
+            gradient.addColorStop(0.5, colors[1]);
+            gradient.addColorStop(1, colors[2]);
+
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+        }
+
+        let offsetX = 0;
+        let offsetY = 0;
+        const speed = 1; // 移动速度
+
+        function drawIcons() {
+            const icon = new Image();
+            icon.src = iconSelect.value; // 使用选择的图案路径
+            icon.onload = () => {
+                const originalWidth = icon.width;
+                const originalHeight = icon.height;
+                const scale = parseInt(iconSizeRange.value) / originalWidth; // 根据滑块值计算缩放比例
+                const iconWidth = originalWidth * scale * (canvas.width / 1920); // 根据canvas的宽度调整缩放比例
+                const iconHeight = originalHeight * scale * (canvas.height / 1080); // 根据canvas的高度调整缩放比例
+                const opacity = parseFloat(opacityRange.value);
+                ctx.globalAlpha = opacity;
+                const horizontalSpacing = parseInt(iconHorizontalSpacingRange.value) * (canvas.width / 1920); // 调整间距
+                const verticalSpacing = parseInt(iconVerticalSpacingRange.value) * (canvas.height / 1080); // 调整间距
+                const offsetAmount = parseInt(iconOffsetRange.value) * (canvas.width / 1920); // 调整偏移量
+                const rotationAngle = parseInt(iconRotationRange.value) * Math.PI / 180; // 旋转角度
+
+                ctx.save();
+                ctx.translate(canvas.width / 2, canvas.height / 2); // 将原点移到画布中心
+                ctx.rotate(rotationAngle); // 旋转整个图层
+                ctx.translate(-canvas.width / 2, -canvas.height / 2); // 将原点移回
+
+                for (let y = -1080 + offsetY; y < canvas.height + 1080 + offsetY; y += verticalSpacing) {
+                    for (let x = -1980 + offsetX; x < canvas.width + 1980 + offsetX; x += horizontalSpacing) {
+                        const xOffset = (Math.floor(y / verticalSpacing) % 2 === 0) ? 0 : offsetAmount; // 仅调整偶数行的水平偏移
+                        ctx.drawImage(icon, x + xOffset, y, iconWidth, iconHeight); // 使用等比缩放调整图标大小
+                    }
+                }
+                ctx.restore();
+                ctx.globalAlpha = 1.0;
+            };
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height); // 清除画布
+            drawBackground();
+            drawIcons();
+            offsetX += speed;
+            offsetY -= speed;
+            if (offsetX >= horizontalSpacing) offsetX = 0;
+            if (offsetY <= -verticalSpacing) offsetY = 0;
+            requestAnimationFrame(animate);
+        }
+
+        function updateCanvas() {
+            drawBackground();
+            drawIcons();
+        }
+
+        backgroundSelect.addEventListener('change', updateCanvas);
+        iconSelect.addEventListener('change', updateCanvas);
+        opacityRange.addEventListener('input', updateCanvas);
+        iconSizeRange.addEventListener('input', updateCanvas);
+        iconHorizontalSpacingRange.addEventListener('input', updateCanvas);
+        iconVerticalSpacingRange.addEventListener('input', updateCanvas);
+        iconOffsetRange.addEventListener('input', updateCanvas);
+        iconRotationRange.addEventListener('input', updateCanvas);
+
+        downloadButton.addEventListener('click', () => {
+            // 创建一个临时的隐藏 canvas
+            const tempCanvas = document.createElement('canvas');
+            tempCanvas.width = 1920;
+            tempCanvas.height = 1080;
+            const tempCtx = tempCanvas.getContext('2d');
+
+            // 将当前 canvas 的内容绘制到临时 canvas 上
+            tempCtx.drawImage(canvas, 0, 0, tempCanvas.width, tempCanvas.height);
+
+            // 创建下载链接
+            const link = document.createElement('a');
+            link.download = 'background.png';
+            link.href = tempCanvas.toDataURL('image/png');
+            link.click();
+        });
+
+        function resizeCanvas() {
+            const aspectRatio = 16 / 9;
+            const width = window.innerWidth * 0.8; // 80% of the window width
+            const height = width / aspectRatio;
+            canvas.width = width;
+            canvas.height = height;
+            updateCanvas();
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+
+        // 初始化时调整画布大小
+        resizeCanvas();
+    </script>
+</body>
+</html>
