@@ -42,5 +42,5 @@ jobs:
       run: |
         scp -r dist/* ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}:/home/***/release/web/sc-background
         ssh ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} << 'EOF'
-          sudo systemctl reload nginx
+          sudo service nginx restart
         EOF
