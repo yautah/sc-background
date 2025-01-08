@@ -16,7 +16,7 @@ jobs:
     - name: Setup Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: '18'  # 使用支持 structuredClone 的 Node.js 版本
+        node-version: '18'
 
     - name: Install dependencies
       run: npm install
@@ -37,7 +37,7 @@ jobs:
 
     - name: Deploy to server
       run: |
-        scp -r dist/* ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}:/home/yang/releases/web/sc-background
+        scp -r dist/* ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}:/home/***/releases/web/sc-background
         ssh ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} << 'EOF'
           sudo systemctl reload nginx
         EOF
