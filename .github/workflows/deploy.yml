@@ -35,6 +35,9 @@ jobs:
       run: |
         echo -e "Host *\n\tHostkeyAlgorithms +ssh-rsa\n\tPubkeyAcceptedKeyTypes +ssh-rsa" >> ~/.ssh/config
 
+    - name: Debug SSH connection
+      run: ssh -v -i ~/.ssh/id_rsa ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} echo "SSH connection successful"
+
     - name: Deploy to server
       run: |
         scp -r dist/* ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}:/home/***/releases/web/sc-background
