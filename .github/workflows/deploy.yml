@@ -47,5 +47,4 @@ jobs:
         username: ${{ secrets.SERVER_USER }}
         key: ${{ secrets.XIAOMI_PRIVATE_KEY }}
         script: |
-          whoami 
-          ls -al
+          sudo service nginx restart
