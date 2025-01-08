@@ -2,4 +2,4 @@
 Supercell background generator
 
 ## Online Demo
-visit: https://madn.xyz/sc-background/
+visit: https://www.madn.xyz/sc-background/
